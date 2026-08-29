@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:cleanroom:schema:lifecycle-event:v1",
+  "title": "Replayable lifecycle event",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "event_id",
+    "event_type",
+    "actor_id",
+    "event_time",
+    "observed_at",
+    "recorded_at",
+    "effective_at",
+    "occurred_at",
+    "subject_id",
+    "object_ids",
+    "state_before",
+    "state_after",
+    "truth_atom_ids"
+  ],
+  "properties": {
+    "event_id": {"type": "string", "format": "uuid"},
+    "event_type": {"type": "string", "minLength": 1},
+    "actor_id": {"type": "string", "format": "uuid"},
+    "event_time": {"type": "string", "format": "date-time"},
+    "observed_at": {"type": "string", "format": "date-time"},
+    "recorded_at": {"type": "string", "format": "date-time"},
+    "effective_at": {"type": "string", "format": "date-time"},
+    "occurred_at": {"type": "string", "format": "date-time"},
+    "subject_id": {"type": "string", "format": "uuid"},
+    "object_ids": {
+      "type": "array",
+      "items": {"type": "string", "format": "uuid"},
+      "uniqueItems": true
+    },
+    "state_before": {"type": ["string", "null"]},
+    "state_after": {"type": "string", "minLength": 1},
+    "truth_atom_ids": {
+      "type": "array",
+      "items": {"type": "string", "format": "uuid"},
+      "minItems": 1,
+      "uniqueItems": true
+    }
+  }
+}

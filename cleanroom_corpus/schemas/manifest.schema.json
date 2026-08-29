@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:cleanroom:schema:manifest:v1",
+  "title": "Synthetic corpus manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "classification",
+    "license_posture",
+    "generator",
+    "seed",
+    "deterministic_generated_at",
+    "corpus_sha256",
+    "counts",
+    "surfaces",
+    "controls",
+    "files"
+  ],
+  "properties": {
+    "schema": {"const": "cleanroom.corpus-manifest/v1"},
+    "classification": {"const": "SYNTHETIC_CLEAN_ROOM"},
+    "license_posture": {"const": "wholly-synthetic-no-source-derived-content"},
+    "generator": {"type": "string"},
+    "seed": {"type": "integer"},
+    "deterministic_generated_at": {"type": "string"},
+    "corpus_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "communication_contract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema",
+        "artifact_schema",
+        "assignment_phase",
+        "thread_scope",
+        "thread_id_algorithm",
+        "conversation_id_rule",
+        "message_id_algorithm",
+        "duplicate_lineage",
+        "surfaces"
+      ],
+      "properties": {
+        "schema": {"const": "cleanroom.communication-thread-contract/v1"},
+        "artifact_schema": {"const": "cleanroom.artifact/v2"},
+        "assignment_phase": {"const": "hidden-world-render-before-artifact-bytes"},
+        "thread_scope": {"const": "focal-business-root"},
+        "thread_id_algorithm": {"type": "string", "minLength": 1},
+        "conversation_id_rule": {"const": "exact-alias-of-thread-id"},
+        "message_id_algorithm": {"type": "string", "minLength": 1},
+        "duplicate_lineage": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["exact", "near"],
+          "properties": {
+            "exact": {"const": "same-message-id-and-thread-as-source"},
+            "near": {"const": "new-message-id-replying-to-source-in-same-thread"}
+          }
+        },
+        "surfaces": {
+          "const": ["chat", "email"]
+        }
+      }
+    },
+    "counts": {"type": "object"},
+    "surfaces": {
+      "type": "array",
+      "minItems": 6,
+      "items": {"type": "string"},
+      "uniqueItems": true
+    },
+    "controls": {"type": "object"},
+    "files": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["path", "sha256", "bytes"],
+        "properties": {
+          "path": {"type": "string"},
+          "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+          "bytes": {"type": "integer", "minimum": 0}
+        }
+      }
+    }
+  }
+}

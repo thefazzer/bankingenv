@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:cleanroom:schema:artifact:v2",
+  "title": "Synthetic source artefact with source-assigned communication identity",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "artifact_id",
+    "relative_path",
+    "surface",
+    "sha256",
+    "bytes",
+    "characters",
+    "span_count",
+    "duplicate_of",
+    "duplicate_kind"
+  ],
+  "properties": {
+    "schema": {"const": "cleanroom.artifact/v2"},
+    "artifact_id": {"type": "string", "minLength": 1},
+    "relative_path": {"type": "string", "minLength": 1},
+    "surface": {
+      "enum": [
+        "email",
+        "chat",
+        "ticket",
+        "ops_log",
+        "trade_csv",
+        "fix",
+        "meeting_note",
+        "directory",
+        "reference_data"
+      ]
+    },
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "bytes": {"type": "integer", "minimum": 0},
+    "characters": {"type": "integer", "minimum": 0},
+    "span_count": {"type": "integer", "minimum": 1},
+    "duplicate_of": {"type": ["string", "null"]},
+    "duplicate_kind": {"enum": ["exact", "near", null]},
+    "message_id": {
+      "type": "string",
+      "pattern": "^urn\\.ficta\\.message\\.[0-9a-f-]{36}@messages\\.ficta\\.invalid$"
+    },
+    "thread_id": {"type": "string", "pattern": "^urn:ficta:thread:"},
+    "conversation_id": {"type": "string", "pattern": "^urn:ficta:thread:"},
+    "thread_root_id": {"type": "string", "minLength": 1},
+    "parent_message_id": {
+      "type": ["string", "null"],
+      "pattern": "^urn\\.ficta\\.message\\.[0-9a-f-]{36}@messages\\.ficta\\.invalid$"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "surface": {"enum": ["email", "chat"]}
+        },
+        "required": ["surface"]
+      },
+      "then": {
+        "required": [
+          "message_id",
+          "thread_id",
+          "conversation_id",
+          "thread_root_id",
+          "parent_message_id"
+        ]
+      }
+    }
+  ]
+}

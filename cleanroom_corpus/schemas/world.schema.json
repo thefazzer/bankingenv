@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:cleanroom:schema:world:v1",
+  "title": "Synthetic hidden world",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "classification",
+    "seed",
+    "config",
+    "institution",
+    "entities",
+    "relations",
+    "lifecycle_events",
+    "materialized_state"
+  ],
+  "properties": {
+    "schema": {"const": "cleanroom.capital-markets-corpus/v1"},
+    "classification": {"const": "SYNTHETIC_CLEAN_ROOM"},
+    "seed": {"type": "integer"},
+    "config": {"type": "object"},
+    "institution": {"type": "string", "format": "uuid"},
+    "entities": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "entity_id",
+          "kind",
+          "canonical_label",
+          "aliases",
+          "attributes",
+          "synthetic"
+        ],
+        "properties": {
+          "entity_id": {"type": "string", "format": "uuid"},
+          "kind": {"type": "string"},
+          "canonical_label": {"type": "string"},
+          "aliases": {"type": "array", "items": {"type": "string"}},
+          "attributes": {"type": "object"},
+          "synthetic": {"const": true}
+        }
+      }
+    },
+    "relations": {"type": "array", "items": {"type": "object"}},
+    "lifecycle_events": {"type": "array", "items": {"type": "object"}},
+    "materialized_state": {"type": "object", "additionalProperties": {"type": "string"}}
+  }
+}

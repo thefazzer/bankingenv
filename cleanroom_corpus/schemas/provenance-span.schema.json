@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:cleanroom:schema:provenance-span:v1",
+  "title": "Lossless artefact provenance span",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "span_id",
+    "artifact_id",
+    "relative_path",
+    "char_start",
+    "char_end",
+    "byte_start",
+    "byte_end",
+    "text_sha256",
+    "truth_atom_ids",
+    "evidence_role",
+    "kind",
+    "transforms",
+    "assertion"
+  ],
+  "properties": {
+    "schema": {"const": "cleanroom.provenance-span/v1"},
+    "span_id": {"type": "string", "minLength": 1},
+    "artifact_id": {"type": "string", "minLength": 1},
+    "relative_path": {"type": "string", "minLength": 1},
+    "char_start": {"type": "integer", "minimum": 0},
+    "char_end": {"type": "integer", "minimum": 1},
+    "byte_start": {"type": "integer", "minimum": 0},
+    "byte_end": {"type": "integer", "minimum": 1},
+    "text_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "truth_atom_ids": {
+      "type": "array",
+      "items": {"type": "string", "format": "uuid"},
+      "uniqueItems": true
+    },
+    "evidence_role": {"type": "string", "minLength": 1},
+    "kind": {
+      "enum": [
+        "format",
+        "header",
+        "temporal",
+        "semantic",
+        "noise",
+        "missing-date",
+        "contradiction",
+        "duplicate"
+      ]
+    },
+    "transforms": {
+      "type": "array",
+      "items": {"type": "string"},
+      "uniqueItems": true
+    },
+    "assertion": {"enum": ["neutral", "supports", "contradicts"]}
+  }
+}
