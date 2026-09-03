@@ -59,6 +59,18 @@ the provider surface.
    used. Graded evaluation results under preregistration are available, with
    their scoring material, to counterparties under NDA.
 
+## Ledger and packaging
+
+- [docs/EVAL-LEDGER.md](docs/EVAL-LEDGER.md): what the preregistered
+  calibration lane behind BankingEnv has and has not established as of
+  2026-09-03, in the lane's own status vocabulary. It reports no graded
+  figure for the forty sealed episodes.
+- [docs/HARBOR-PACKAGING.md](docs/HARBOR-PACKAGING.md): how a sealed
+  episode maps to a harbor task directory (instruction, config, verifier) of
+  the kind Mercor's ApexAgents-SkyRL recipe consumes, with the split policy
+  and per-task certificates. `scripts/export_harbor.py` writes that layout
+  from the sealed assets and has a dry-run mode.
+
 ## License
 
 MIT — see [LICENSE](LICENSE).
