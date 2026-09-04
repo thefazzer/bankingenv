@@ -67,7 +67,7 @@ themselves are not released.
 | T5-v1 | Complete preregistered run; freeze intact. [2] | 9 (2 loci) | NOT passed (C3b and C4 did not reject). |
 | T6-v2 | Complete preregistered run; freeze intact. [3] | 20 (2 loci) | NOT passed (U1 did not reject; U2 rejected). |
 | T7 Part A | Complete developmental step, existing artifacts only. [4][5] | 18 (T6) and 10 (T5) | No routing signal admitted. |
-| T7 Part B (v3) | In flight. [4] | at least 20 admitted, or halt | No result exists as of 2026-09-03. |
+| T7 Part B (v3) | COMPLETE 2026-09-03; freeze intact. [1][7] | 27 admitted (2 loci) | PASSED narrowly (U1 p=0.047; U2 rejected). |
 
 Three earlier runs precede T4. The lane's status file labels them as a valid
 falsifier of a generalized rubric, an institution-bound exclusivity and
@@ -212,9 +212,11 @@ beats the unaided model and beats the wrong evidence, and the gain depends
 on the content being the right content. [1][2][3][6]
 
 **Union claim status.** Not passed at T6 (U1 p=0.061 against alpha 0.05,
-interval touching zero, positive at both loci and under both judges). T7 is
-its terminal test under a two-strikes rule (section 7). No result exists
-yet. [3][4]
+interval touching zero, positive at both loci and under both judges). T7-v3
+COMPLETE 2026-09-03; union claim PASSED narrowly under the intersection-union
+rule (estimand conditional on oracle answerability): U1 n=27, +0.130, p=0.047,
+CI [0.009, 0.296]; U2 +0.228, p=0.003. Next: untouched-locus replication, not
+another optimisation run. [1][3][7]
 
 **Routing-signal result (T7 Part A, developmental, existing artifacts
 only).** A router would choose per question between retrieval alone and
@@ -241,11 +243,13 @@ about +0.07 over always-union; routing is bounded whatever the signal. 51 of
 Consequence per the frozen decision tree: no routed arm is run in T7; S4's
 near-miss is recorded as a descriptive observation only. [4][5][6]
 
-## 7. T7: design of the terminal test (in flight)
+## 7. T7-v3: terminal test COMPLETE; union claim PASSED narrowly
 
-T7 is preregistered (v3, frozen at a recorded protocol commit after Part A
-completed and its preflight passed) and running as of 2026-09-03. Nothing
-below is a result. [4]
+T7-v3 COMPLETE 2026-09-03 (freeze intact). Union claim PASSED narrowly.
+U1: n=27, +0.130, p=0.047, CI [0.009, 0.296]; U2: +0.228, p=0.003.
+Estimand: conditional on oracle answerability. Decision-tree branch reached:
+untouched-locus replication (not another optimisation run). Design summary
+below is the frozen preregistration that produced this result. [1][4][7]
 
 - **Estimand (section 2, verbatim).** "T7 estimates union uplift over
   retrieval for institution-specific tasks demonstrably answerable from the
@@ -317,11 +321,13 @@ below is a result. [4]
 Licensed on this evidence, scoped to two loci of one private corpus, model
 judges only: a curated pack raises task-level pass rate over the unaided
 model and over a wrong-locus pack (three runs); the pack prepended to
-retrieval beats a wrong-locus pack prepended to the same retrieval (T6 U2).
-Not shown: an advantage over question-keyed retrieval from the corpus at
-equal length (T5 C3b, T6 C3b-r), over the pack's own verbatim evidence (T5
-C4, T6 C4f), or over twice-budget retrieval alone at the preregistered
-threshold (T6 U1). [2][3]
+retrieval beats a wrong-locus pack prepended to the same retrieval (T6 U2,
+T7 U2); and, conditional on oracle answerability, union beats twice-budget
+retrieval alone at the preregistered threshold by a narrow margin (T7 U1,
+PASSED narrowly). Not shown: an advantage over question-keyed retrieval from
+the corpus at equal length (T5 C3b, T6 C3b-r), or over the pack's own
+verbatim evidence (T5 C4, T6 C4f). T6 U1 did not reject; T7 is the terminal
+pass under the changed estimand. Next: untouched-locus replication. [2][3][7]
 
 Limits carried by every figure above: [6]
 
@@ -347,8 +353,8 @@ than a standalone knowledge-pack product. [6]
 
 ## Footnotes: sources (private lane reports, not released)
 
-1. `RESULTS-STATUS.md`, owner directive of 2026-09-01 with the T4 v8, T5-v1
-   and T6-v2 status blocks and the T4 C4 erratum of 2026-09-02.
+1. `RESULTS-STATUS.md`, owner directive of 2026-09-01 with the T4 v8, T5-v1,
+   T6-v2 and T7-v3 status blocks and the T4 C4 erratum of 2026-09-02.
 2. `T5-REPORT.md`, T5-v1 complete report (sections 1 to 7).
 3. `T6-REPORT.md`, T6-v2 complete report (sections 1 to 7).
 4. `PREREG-T7.md`, v3, sections 2 (estimand), 3 (Part A), 4 (Part B
@@ -358,3 +364,5 @@ than a standalone knowledge-pack product. [6]
 6. Viability read of 2 to 3 September 2026 (private), the version with
    definitions; source of the glossary, the planning estimate, the
    apparatus-sensitivity figures and the commercial reading.
+7. `T7-REPORT.md` section 1 and `out-t7/report.json` (U1/U2, n,
+   union_claim_passes, decision-tree branch).
