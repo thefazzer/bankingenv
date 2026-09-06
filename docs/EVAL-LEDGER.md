@@ -1,4 +1,4 @@
-# Evaluation ledger: the preregistered calibration lane, as of 2026-09-03
+# Evaluation ledger: the preregistered calibration lane, as of 2026-09-05
 
 This page records what the preregistered calibration lane behind BankingEnv
 has and has not established, in the wording discipline of that lane's own
@@ -17,7 +17,10 @@ themselves are not released.
   primary, Claude Opus 5 as a sensitivity judge). No human grading. [6]
 - **Where the questions came from.** A private calibration corpus (one
   institution, not released). Two topic areas of that corpus, called loci,
-  were used in every run; they are referred to here as locus A and locus B.
+  were used in every run through T7; they are referred to here as locus A
+  and locus B. T8, the one-shot replication, used a second private corpus
+  (a second institution, not released) whose three loci had never been used
+  by the lane; they are referred to here as loci C, D and E.
   Everything public, including every episode in this repository, is
   synthetic and marked `CLEANROOM_SYNTHETIC`. [6]
 - **What this ledger is not.** It is not a result on the forty hash-sealed
@@ -68,6 +71,7 @@ themselves are not released.
 | T6-v2 | Complete preregistered run; freeze intact. [3] | 20 (2 loci) | NOT passed (U1 did not reject; U2 rejected). |
 | T7 Part A | Complete developmental step, existing artifacts only. [4][5] | 18 (T6) and 10 (T5) | No routing signal admitted. |
 | T7 Part B (v3) | COMPLETE 2026-09-03; freeze intact. [1][7] | 27 admitted (2 loci) | PASSED narrowly (U1 p=0.047; U2 rejected). |
+| T8-v1 | COMPLETE 2026-09-05; freeze intact; one shot on a second corpus. [1][8] | 45 admitted (3 untouched loci) | NOT passed (U1 rejects pooled, p=0.047, but one locus is exactly zero and the sensitivity judge does not reject, p=0.057; U2 rejected). Union line CLOSED. |
 
 Three earlier runs precede T4. The lane's status file labels them as a valid
 falsifier of a generalized rubric, an institution-bound exclusivity and
@@ -202,6 +206,9 @@ conservative for U1 on one of them. [3]
 2. Standalone pack authoring as a product activity: stopped at T6 (U1). [3]
 3. Routing at the cheap and probe-based signal level: closed at T7 Part A
    (below). [4][5]
+4. Union over twice-budget retrieval as a product claim: closed at T8-v1
+   (U1), the preregistered one-shot replication on untouched loci of a
+   second corpus (section 8). No further run on this claim. [8]
 
 **Replicated three times, scoped to two loci of one corpus and model
 judges only.** Pack over unaided: T4 +0.408, T5 +0.537, T6 +0.454. Content
@@ -215,8 +222,13 @@ on the content being the right content. [1][2][3][6]
 interval touching zero, positive at both loci and under both judges). T7-v3
 COMPLETE 2026-09-03; union claim PASSED narrowly under the intersection-union
 rule (estimand conditional on oracle answerability): U1 n=27, +0.130, p=0.047,
-CI [0.009, 0.296]; U2 +0.228, p=0.003. Next: untouched-locus replication, not
-another optimisation run. [1][3][7]
+CI [0.009, 0.296]; U2 +0.228, p=0.003. Its frozen decision tree named
+untouched-locus replication as the next step. T8-v1 COMPLETE 2026-09-05 was
+that replication, one shot, on three untouched loci of a second corpus: the
+union claim did NOT pass (U1 n=45, +0.072, p=0.047 pooled, but one locus
+exactly zero and the sensitivity judge p=0.057; U2 +0.177, p=0.000004). The
+T7 effect did not transfer; T7 stands as a locus-specific finding on its own
+two loci and the union line is closed. [1][3][7][8]
 
 **Routing-signal result (T7 Part A, developmental, existing artifacts
 only).** A router would choose per question between retrieval alone and
@@ -316,7 +328,51 @@ below is the frozen preregistration that produced this result. [1][4][7]
   generator's own source slice), the under-20 halt and a stray-artifact
   guard. [4][6]
 
-## 8. What the lane licenses, and its limits
+## 8. T8-v1: one-shot replication COMPLETE; union claim NOT passed; line closed
+
+T8-v1 COMPLETE 2026-09-05 (freeze intact, 540 sheets, one runner hash, clean
+tree). Union claim NOT passed under the intersection-union rule. Frozen
+decision-tree branch reached: "U1 fails: the T7 effect does not transfer to
+untouched loci; union line closed for product purposes". One shot by
+preregistration: no further run on the union claim, no two-strikes clause,
+no parameter tuning. [1][8]
+
+| Contrast | n | Delta | p | BCa 95% | Per locus C / D / E | Sensitivity judge | Standing |
+|---|---|---|---|---|---|---|---|
+| U1 union vs twice-budget retrieval (gate) | 45 | +0.072 | 0.047 | [-0.002, 0.162] | +0.137 / 0.000 / +0.078 | n=43, +0.074, p=0.057 | rejects pooled; FAILS the every-locus-positive component and the sensitivity direction is not established |
+| U2 union vs wrong-locus pack + same retrieval (gate) | 45 | +0.177 | 0.000004 | [0.107, 0.273] | +0.298 / +0.111 / +0.122 | +0.185, p=0.000002 | rejects |
+| O1 oracle source slice vs retrieval (descriptive) | 45 | +0.380 | <0.00001 | [0.261, 0.503] | +0.213 / +0.411 / +0.517 | +0.374 | descriptive, never a gate |
+| B1 union vs unaided (descriptive) | 45 | +0.573 | <0.00001 | [0.465, 0.676] | +0.691 / +0.517 / +0.511 | +0.575 | descriptive, never a gate |
+
+- **What changed from T7 (preregistered, section 6 of the T8 protocol).**
+  A second private corpus; three loci selected by an evidence gate before any
+  question, with an automated refusal to start if any locus or the corpus
+  token appeared in any prior run's outputs; the correct-locus pack for each
+  locus frozen by hash before the generator ran, with no gap-directed repair
+  step; the wrong-locus control built from the other two loci's packs of the
+  same corpus; oracle admission retried before the freeze and never after;
+  minimum thirty admitted tasks (45 were admitted, none excluded). Everything
+  else (arms, budgets, nested retrieval, refusal rule, judges, permutation
+  test, resume semantics) is byte-identical to T7-v3.
+- **Gate outcome, precisely.** The intersection-union rule requires every
+  locus positive under the primary judge. Locus D's U1 mean is exactly 0.000
+  (retrieval alone already answers those tasks as well as the union does), so
+  the component fails even though the pooled test rejects at p=0.047. The
+  sensitivity judge's pooled U1 is positive but does not reject (p=0.057).
+- **Routing.** Part A re-used the T6 and T5 artifacts; no signal reached the
+  +0.05 admission bar (best +0.032); no routed arm was run.
+- **Disclosures.** Five of 540 sheets were persistent refusals scored zero,
+  all in the unaided arm. One judge replicate sheet is missing under the
+  primary judge; sixteen are missing under the sensitivity judge (two tasks of
+  locus E), which is why the sensitivity n is 43. One provider interruption
+  and one same-version resume honouring 173 cached artifacts; no code change
+  during the run. Judge agreement 1,959 of 2,028 cells (96.6 percent, kappa
+  0.93). Ratifications behind the pack content and the locus mappings were
+  drafted by the lane's own tooling and signed by the corpus owner in one
+  sitting, without a second human reader, as the lane's own adversarial
+  record for 4 September states.
+
+## 9. What the lane licenses, and its limits
 
 Licensed on this evidence, scoped to two loci of one private corpus, model
 judges only: a curated pack raises task-level pass rate over the unaided
@@ -324,10 +380,14 @@ model and over a wrong-locus pack (three runs); the pack prepended to
 retrieval beats a wrong-locus pack prepended to the same retrieval (T6 U2,
 T7 U2); and, conditional on oracle answerability, union beats twice-budget
 retrieval alone at the preregistered threshold by a narrow margin (T7 U1,
-PASSED narrowly). Not shown: an advantage over question-keyed retrieval from
-the corpus at equal length (T5 C3b, T6 C3b-r), or over the pack's own
-verbatim evidence (T5 C4, T6 C4f). T6 U1 did not reject; T7 is the terminal
-pass under the changed estimand. Next: untouched-locus replication. [2][3][7]
+PASSED narrowly) on the two loci the lane had curated since T4. Not shown: an
+advantage over question-keyed retrieval from the corpus at equal length (T5
+C3b, T6 C3b-r), or over the pack's own verbatim evidence (T5 C4, T6 C4f); and
+not shown, on the one-shot replication, that the union effect transfers to
+untouched loci (T8 U1 NOT passed). The union line is closed. What replicated
+on the second corpus is the narrower pair: the pack beats the unaided model
+(B1 +0.573) and beats a wrong-locus pack of identical format (U2 +0.177).
+[2][3][7][8]
 
 Limits carried by every figure above: [6]
 
@@ -342,7 +402,8 @@ Limits carried by every figure above: [6]
 3. External validity is unmeasured: one institution, two loci, model judges,
    no human grading. The loci disagree: on locus A pack plus retrieval beats
    retrieval by +0.27; on locus B retrieval already answers most tasks and
-   the pack adds +0.05 (T6 per-locus U1). [3]
+   the pack adds +0.05 (T6 per-locus U1). The same pattern recurred on the
+   second corpus (T8 per-locus U1 +0.137, 0.000, +0.078). [3][8]
 
 Commercial reading recorded by the lane, not a finding of any run: the claim
 the evidence supports is narrower than "curated institutional knowledge beats
@@ -366,3 +427,7 @@ than a standalone knowledge-pack product. [6]
    apparatus-sensitivity figures and the commercial reading.
 7. `T7-REPORT.md` section 1 and `out-t7/report.json` (U1/U2, n,
    union_claim_passes, decision-tree branch).
+8. `PREREG-T8.md` v1 (sections 2, 3, 5 and 6), `T8-CONFORMANCE.md`, the
+   T8-v1 status block in `RESULTS-STATUS.md`, and `out-t8/report.json`
+   (contrasts, per-locus means, judge agreement, refusal assessment,
+   claim_gate_intersection_union, decision_tree_outcome).
