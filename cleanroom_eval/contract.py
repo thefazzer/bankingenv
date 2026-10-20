@@ -710,7 +710,7 @@ def verify_bundle(root: Path = ASSET_DIR) -> dict[str, Any]:
 
 
 def set_variation(episodes: Sequence[Mapping[str, Any]]) -> dict[str, Any]:
-    """Measure how much an episode set actually varies (variance acceptance)."""
+    """Measure how much an episode set actually varies (#115 acceptance)."""
 
     def commitment(value: object) -> str:
         return digest(value)

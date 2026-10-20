@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://bankingenv.example/schemas/cleanroom-run-v1",
+  "$id": "https://finexhaust.example/schemas/cleanroom-run-v1",
   "title": "Clean-room experiment run receipt",
   "type": "object",
   "additionalProperties": false,

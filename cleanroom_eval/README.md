@@ -1,3 +1,10 @@
+# Current environment: BankingEnv v3
+
+The current document-grounded runtime, generation and evaluation instructions
+are in [BankingEnv v3](../docs/bankingenv-v3.md). The contract below describes
+the historical v1/v2 fixtures, retained for reproduction. Historical results
+do not describe the regenerated dataset.
+
 # Clean-room capital-markets evaluation contract
 
 This directory defines the evaluation boundary independently of any corpus
@@ -14,6 +21,14 @@ institution-neutral and marked `CLEANROOM_SYNTHETIC`.
 - `assets/experiment.v1.json` preregisters BASE, SFT, SFT matched control, RL
   and RL matched control, including compute parity and causal contrasts.
 - `assets/sealed-set.manifest.v1.json` enumerates exact fixture bytes and hashes.
+- `assets/citation_tasks/citation-tasks.v1.jsonl` freezes exactly 500
+  provider-visible semantic citation tasks derived from all forty episodes.
+- `assets/citation_tasks/citation-task-oracle.v1.jsonl` keeps evaluator-only
+  expected selections and adversarial labels in a physically separate asset;
+  it is never part of a provider request.
+- `assets/citation-tasks.manifest.v1.json` binds both citation assets to the
+  sealed episode manifest, enumerates every task/oracle hash and freezes
+  category, scenario-family and answer-kind coverage.
 
 The episode replayer deterministically checks chronology, referential integrity,
 authorization, monotonic object versions, idempotency, per-currency ledger
@@ -68,10 +83,12 @@ independent release attestation.
 
 ```bash
 python3 -m cleanroom_eval.contract verify-bundle
+python3 -m cleanroom_eval.build_citation_tasks
+python3 -c 'from cleanroom_eval.citation_tasks import verify_citation_task_set; print(verify_citation_task_set())'
 python3 -m cleanroom_eval.runner \
   --provider mock \
   --output /tmp/cleanroom-mock-run.json
-python3 -m pytest cleanroom_eval/tests -q
+python3 -m unittest tests.test_cleanroom_eval_contract -v
 ```
 
 The mock command executes all 800 arm/event decisions deterministically. It
@@ -126,5 +143,15 @@ and token usage, but never prompts, responses or credentials.
 `python3 -m cleanroom_eval.matched_run` is the admissibility layer for actual
 BASE/SFT/RL and matched-control checkpoints. It rehashes concrete artifacts,
 verifies training-receipt lineage and equal compute, freezes balanced seeds and
-episode jobs, and resumes only from plan-bound provider receipts.
+episode jobs, and resumes only from plan-bound provider receipts. See
+`docs/cleanroom_real_matched_run.md`. A single generic model cannot be labelled
+as the trained arms.
 
+## Commercial-proof package
+
+`commercial_proof/` wraps this contract in a mock-only API/container demo and a
+hash-enumerated commercial package. Its manifest includes the frozen sealed-set
+commitment, taxonomy, experiment, verifier, package plan, benchmark/security
+documents and unexecuted legal/SOW templates. The package builder cannot
+self-approve: legal, commercial, real-provider and independent-provenance gates
+remain pending until separately reviewed evidence resolves them.

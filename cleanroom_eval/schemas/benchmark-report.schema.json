@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://bankingenv.example/schemas/cleanroom-matched-benchmark-v1",
+  "$id": "https://finexhaust.example/schemas/cleanroom-matched-benchmark-v1",
   "type": "object",
   "additionalProperties": false,
   "required": ["schema", "classification", "benchmark_status", "experiment_id", "source_run_id", "source_receipt_sha256", "primary_metric", "arms", "causal_contrasts", "held_out_transfer", "reward_hacking", "contamination", "interpretation_guard", "report_sha256"],

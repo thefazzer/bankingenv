@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://bankingenv.example/schemas/cleanroom-provider-response-v1",
+  "$id": "https://finexhaust.example/schemas/cleanroom-provider-response-v1",
   "type": "object",
   "additionalProperties": true,
   "required": ["action", "execute", "evidence_refs", "claims"],

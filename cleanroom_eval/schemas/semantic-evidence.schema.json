@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://bankingenv.example/schemas/cleanroom-semantic-evidence-v1",
+  "$id": "https://finexhaust.example/schemas/cleanroom-semantic-evidence-v1",
   "type": "object",
   "additionalProperties": false,
   "required": ["schema", "evidence_id", "propositions", "coverage"],
