@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://bankingenv.example/schemas/cleanroom-experiment-v1",
+  "$id": "https://finexhaust.example/schemas/cleanroom-experiment-v1",
   "title": "Clean-room causal training experiment",
   "type": "object",
   "additionalProperties": false,

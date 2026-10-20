@@ -1,20 +1,4 @@
-"""Deterministic clean-room corpus generation and curated synthetic storage."""
+"""Release packaging: adapter surface only.
 
-from .generator import (
-    GeneratorConfig,
-    SyntheticCorpusGenerator,
-    institution_scale_config,
-    materialize_state,
-)
-from .model import SyntheticInstitution, SyntheticPerson
-from .registry import StoreRegistry
-
-__all__ = [
-    "GeneratorConfig",
-    "StoreRegistry",
-    "SyntheticCorpusGenerator",
-    "SyntheticInstitution",
-    "SyntheticPerson",
-    "institution_scale_config",
-    "materialize_state",
-]
+The full synthetic-corpus generator is not part of the clean-room
+release; only the evaluation adapters and export contract ship."""

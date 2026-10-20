@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://bankingenv.example/schemas/cleanroom-episode-v1",
+  "$id": "https://finexhaust.example/schemas/cleanroom-episode-v1",
   "title": "Clean-room long-horizon episode",
   "type": "object",
   "additionalProperties": false,

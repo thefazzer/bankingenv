@@ -1,4 +1,4 @@
-"""Build the v2 sealed episode set with real per-family variation.
+"""Build the v2 sealed episode set with real per-family variation (#115).
 
 The v1 set (``assets/episodes``) is FROZEN: it is bound to
 ``preregistration.v1.json`` and to the executed null run, so it is never
@@ -12,7 +12,7 @@ shape and ledger shape. Adversarial mutations and reward traps are drawn from
 libraries keyed on the contract's error vocabulary and the schema's detector
 enum, with the selection varying by family *and* variant. Tool-surface count
 varies in [4, 6]; the taxonomy defines exactly six surfaces, so six is the
-ceiling regardless of the nominal 4-8 event floor.
+ceiling regardless of the nominal 4-8 floor in #115.
 """
 
 from __future__ import annotations
@@ -573,8 +573,8 @@ def build(
     """Build a sealed set. Defaults regenerate the committed v2 set byte-for-byte.
 
     A non-default ``set_tag`` shifts every episode id, world, namespace,
-    scenario lineage and seed-ordered selection (mutations, traps) — and the
-    run-time canaries, which derive from episode ids — producing a disjoint
+    scenario lineage and seed-ordered selection (mutations, traps), and the
+    run-time canaries, which derive from episode ids, producing a disjoint
     private set into ``episode_root``.
     """
     episode_root = episode_root or EPISODE_ROOT_V2

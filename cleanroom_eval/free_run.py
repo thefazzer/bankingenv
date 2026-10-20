@@ -55,6 +55,7 @@ from typing import Any, Mapping, Protocol
 from cleanroom_corpus.eval_adapters import AdapterError, EvaluationSession
 
 from .contract import ASSET_DIR, ContractError, canonical_bytes, digest, load_json, validate_schema
+from .aiuc1 import emit_bundle
 from .cost_grader import write_scores
 from .episode_contract import TASK_SUFFIX, build_contract, contract_path
 
@@ -82,6 +83,25 @@ class Policy(Protocol):
 # ---------------------------------------------------------------------------
 # Policies
 # ---------------------------------------------------------------------------
+
+class RefusePolicy:
+    """Fail-closed null policy: never invokes a tool surface.
+
+    Used for the BankingEnv certificate unaided and naive-retrieval arms,
+    where the requirement is ``reward != 1`` (episode not complete). The
+    policy returns ``{"surface": None}`` immediately, so no state changes
+    and the episode cannot reach its sealed final state. Deterministic and
+    byte-identical across retries given the same ``run_salt``.
+    """
+
+    name = "refuse"
+
+    def reset(self) -> None:
+        pass
+
+    def propose(self, card: Mapping[str, Any], observation: Mapping[str, Any], turn: int) -> Mapping[str, Any]:
+        return {"surface": None}
+
 
 class ScriptedPolicy:
     """Boundary-only search: tries every (actor, action, surface) until one applies.
@@ -257,7 +277,7 @@ class ChatCompletionsPolicy:
                 status = exc.code
             except (urllib.error.URLError, http.client.HTTPException, TimeoutError, OSError) as exc:
                 # Transport failure (reset, timeout, truncated chunked body):
-                # retry like a 5xx, then surface as one policy error — never
+                # retry like a 5xx, then surface as one policy error; never
                 # crash the whole run.
                 if retries >= self.config.max_retries:
                     raise ContractError(f"policy endpoint unreachable: {exc}") from exc
@@ -289,7 +309,7 @@ class ChatCompletionsPolicy:
             envelope = json.loads(raw.decode("utf-8"))
             usage = envelope.get("usage")
             if isinstance(usage, Mapping):
-                # OpenAI-compatible usage block. Absent fields stay absent —
+                # OpenAI-compatible usage block. Absent fields stay absent;
                 # downstream aggregation reports them as UNKNOWN, never zero.
                 usage_record: dict[str, Any] = {}
                 for source, target in (
@@ -548,15 +568,16 @@ def run(
 
         metrics["strategy"] = {k: v for k, v in analyze_run(run_dir).items() if k not in ("schema", "run_id")}
     except Exception as exc:  # metrics are additive; never fail a run over them
-        metrics["strategy"] = {"error": str(exc)}
+        metrics["strategy"] = {"status": "ERROR", "error": str(exc)}
     (run_dir / "metrics.json").write_text(json.dumps(metrics, indent=2) + "\n", encoding="utf-8")
     metrics["scores"] = write_scores(run_dir, metrics, [episode for episode, _ in pairs])
+    metrics["aiuc1"] = emit_bundle(run_dir, metrics, transcript)
     return metrics
 
 
 def _aggregate_usage(telemetry: list[dict[str, Any]]) -> dict[str, Any]:
-    """Run-level provider usage. A field missing from EVERY call is UNKNOWN —
-    never zero — so absent provider reporting cannot masquerade as free."""
+    """Run-level provider usage. A field missing from EVERY call is UNKNOWN,
+    never zero, so absent provider reporting cannot masquerade as free."""
     calls = [row for row in telemetry if "status" in row]
     aggregate: dict[str, Any] = {
         "provider_calls": len(calls),
@@ -585,7 +606,7 @@ def _merge_counts(groups: Any) -> dict[str, int]:
 
 def _main() -> int:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument("--policy", choices=("scripted", "chat"), default="scripted")
+    parser.add_argument("--policy", choices=("scripted", "chat", "refuse"), default="scripted")
     parser.add_argument("--episode-dir", type=Path, default=ASSET_DIR / "episodes_v2")
     parser.add_argument("--out", type=Path, required=True)
     parser.add_argument("--run-id", required=True)
@@ -597,6 +618,10 @@ def _main() -> int:
         policy: Policy = ChatCompletionsPolicy(config)
         commitment = config.commitment()
         turn_limit = args.turn_limit or config.turn_limit
+    elif args.policy == "refuse":
+        policy = RefusePolicy()
+        commitment = {}
+        turn_limit = args.turn_limit or 24
     else:
         policy = ScriptedPolicy()
         commitment = {}
@@ -607,6 +632,7 @@ def _main() -> int:
     )
     summary = {k: metrics[k] for k in ("run_id", "policy", "episodes", "completed", "all_pass", "mean_turns", "gates")}
     summary["cost"] = {k: metrics["scores"][k] for k in ("expected_loss_usd", "null_policy_loss_usd", "loss_avoided_usd", "loss_avoided_fraction", "unpriced_episodes")}
+    summary["aiuc1_evidence"] = {r["id"]: r["status"] for r in metrics["aiuc1"]["requirements"]}
     print(json.dumps(summary, indent=2))
     return 0 if metrics["all_pass"] else 1
 
